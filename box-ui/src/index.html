@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <script type="text/javascript">
+                const config = {
+                    api1: 'example.com',
+                    api2: 'example.com',
+                };
+
+            window.addEventListener('load', () => {
+                try {
+                    const response1 = await fetch(`http://${config.api1}/`),
+                        api1Data = await response1.json();
+                    document.getElementById('div-1').innerHTML = JSON.stringify(api1Data);
+                } catch (e) {
+                    document.getElementById('div-1').innerHTML = e.getMessage();
+                }
+
+                try {
+                    const response2 = await fetch(`http://${config.api2}/`),
+                        api2Data = await response2.json();
+
+                    document.getElementById('div-2').innerHTML = JSON.stringify(api2Data);
+                } catch (e) {
+                    document.getElementById('div-2').innerHTML = e.getMessage();
+                }
+            });
+        </script>
+    </head>
+    <body>
+        <div id="div-1">Loading ...</div>
+        <div id="div-2">Loading ...</div>
+    </body>
+</html>

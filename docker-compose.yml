@@ -1,0 +1,15 @@
+services:
+  api-1:
+    build: ./api-1
+    ports:
+      - 3001:3000
+
+  api-2:
+    build: ./api-2
+    ports:
+      - 3002:3000
+
+  ui:
+    build: ./api-2
+    ports:
+      - 5000:3000
