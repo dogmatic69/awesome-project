@@ -1,0 +1,27 @@
+name: Awesome Project CI
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: ['box-api-1', 'box-api-2', 'box-ui']
+    steps:
+    - uses: actions/checkout@v1
+    - name: Test the component
+      run: cd ${{ matrix.component }} && make test
+
+  publish-packages:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: ['box-api-1', 'box-api-2', 'box-ui']
+    steps:
+    - uses: actions/checkout@v1
+    - name: publish the package
+      run: cd ${{ matrix.component }} && make publish
