@@ -6,22 +6,71 @@ on:
       - master
 
 jobs:
-  run-tests:
+  lint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         component: ['box-api-1', 'box-api-2', 'box-ui']
+
     steps:
-    - uses: actions/checkout@v1
+      - uses: actions/checkout@master
+      - name: Lint the code
+        run: cd ${{ matrix.component }} && make lint
+
+  lint-terraform:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: ['infrastructure', 'permissions', 'services']
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
+      - name: Lint the code
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: 'fmt'
+          tf_actions_working_dir: './terraform/${{ matrix.module }}'
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      matrix:
+        component: ['box-api-1', 'box-api-2', 'box-ui']
+    steps:
+    - uses: actions/checkout@master
     - name: Test the component
       run: cd ${{ matrix.component }} && make test
 
-  publish-packages:
+  publish:
     runs-on: ubuntu-latest
+    needs: [test, scan]
     strategy:
       matrix:
         component: ['box-api-1', 'box-api-2', 'box-ui']
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@master
     - name: publish the package
       run: cd ${{ matrix.component }} && make publish
+
+
+  # slack:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@master
+  #   - name: Slack Notification
+  #     uses: rtCamp/action-slack-notify@master
+  #     env:
+  #       SLACK_CHANNEL: carls-test-channel
+  #       SLACK_COLOR: '#3278BD'
+  #       SLACK_ICON: https://github.com/rtCamp.png?size=48
+  #       SLACK_MESSAGE: 'Post Content :rocket:'
+  #       SLACK_TITLE: PR ready for review
+  #       SLACK_USERNAME: PR Bot
+  #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

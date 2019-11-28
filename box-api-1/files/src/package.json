@@ -1,0 +1,24 @@
+{
+  "name": "api-1",
+  "version": "1.0.0",
+  "description": "Example api in NodeJS",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^6.7.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "mocha": "^6.2.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint -c ./.eslint.json .",
+    "build": "",
+    "test": "mocha /src/tests --exit"
+  }
+}
