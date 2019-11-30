@@ -7,7 +7,7 @@ services:
   api-2:
     build: ./api-2
     ports:
-      - 3002:3000
+      - 3002:5000
 
   ui:
     build: ./api-2

@@ -1,3 +1,5 @@
 .PHONY: test
 test: build
-	echo "testing ..."
+	@echo "======================"
+	@echo "No tests configured!  "
+	@echo "======================"
