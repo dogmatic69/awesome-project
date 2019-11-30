@@ -1,0 +1,5 @@
+.PHONY: lint
+lint: build
+	@echo "======================"
+	@echo "Linter not configured!"
+	@echo "======================"
