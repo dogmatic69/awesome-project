@@ -6,8 +6,17 @@ include ../ci/Makefile.publish
 
 .PHONY: lint
 lint: build
-	docker run --rm ${IMAGE} lint
+	mkdir -p /tmp/output
+	touch /tmp/output/output.txt
+	docker run --rm \
+		-v /tmp/output/:/tmp/output/ \
+		${IMAGE} lint
 
 .PHONY: test
 test: build
-	docker run --rm -v $(realpath ./tests):/src/tests ${IMAGE} test
+	mkdir -p /tmp/output
+	touch /tmp/output/output.txt
+	docker run --rm \
+		-v /tmp/output/:/tmp/output/ \
+		-v $(realpath ./tests):/src/tests \
+		${IMAGE} test

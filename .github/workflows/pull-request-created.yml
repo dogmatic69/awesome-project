@@ -9,7 +9,6 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
       matrix:
         component: ['box-api-1', 'box-api-2', 'box-ui']
 
@@ -17,11 +16,18 @@ jobs:
       - uses: actions/checkout@master
       - name: Lint the code
         run: cd ${{ matrix.component }} && make lint
+      - name: Lint Failure Output
+        if: always()
+        run: cat /tmp/output/output.txt || echo "No lint data"
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: "lint-${{ matrix.component }}"
+          path: /tmp/output
 
   lint-terraform:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
       matrix:
         module: ['infrastructure', 'permissions', 'services']
     steps:
@@ -41,13 +47,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: lint
     strategy:
-      fail-fast: true
       matrix:
         component: ['box-api-1', 'box-api-2', 'box-ui']
     steps:
       - uses: actions/checkout@master
       - name: Test the component
         run: cd ${{ matrix.component }} && make test
+      - name: Test Results
+        if: always()
+        run: cat /tmp/output/output.txt || echo "No test data"
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+            name: "test-${{ matrix.component }}"
+            path: /tmp/output
 
   scan:
     name: docker security scan
@@ -60,6 +73,9 @@ jobs:
       - uses: actions/checkout@master
       - name: Scan the docker image
         run: cd ${{ matrix.component }} && make scan
+      - name: Vulnerability Report
+        if: failure()
+        run: cat /tmp/scan/output/output.txt || echo "No scan data"
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
@@ -70,7 +86,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test, scan]
     strategy:
-      fail-fast: true
       matrix:
         component: ['box-api-1', 'box-api-2', 'box-ui']
     steps:
