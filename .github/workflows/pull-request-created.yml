@@ -60,6 +60,11 @@ jobs:
       - uses: actions/checkout@master
       - name: Scan the docker image
         run: cd ${{ matrix.component }} && make scan
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: "scan-${{ matrix.component }}"
+          path: /tmp/scan/output
 
   publish:
     runs-on: ubuntu-latest

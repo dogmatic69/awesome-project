@@ -1,9 +1,19 @@
 TRIVY_VERSION ?= 0.2.1
+TRIVY_IGNORE = $(realpath .trivyignore)
 
 .PHONY: scan
 scan: build
 	@echo "Scanning ..."
+	mkdir -p /tmp/scan/output
+	touch /tmp/scan/output/output.json
 	docker run --rm \
-		-v /tmp/trivy:/root/.cache/ \
+		-v /tmp/scan:/root/.cache/ \
+		-v $(TRIVY_IGNORE):/.trivyignore \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		aquasec/trivy:${TRIVY_VERSION} ${IMAGE}
+		aquasec/trivy:${TRIVY_VERSION} \
+		--no-progress --exit-code 1 \
+		-f json -o /root/.cache/output/output.json \
+		--ignorefile /.trivyignore \
+		 ${IMAGE}
+	@cat /tmp/scan/output/output.json
+	@echo ""
