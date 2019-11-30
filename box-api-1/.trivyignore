@@ -1,0 +1,27 @@
+################################################################################
+#  Welcome to the whitelist. Pipeline failed due to discovered vulnerability?  #
+#              Here is how to proceed in order of priority                     #
+################################################################################
+#    1. Patch it                                                               #
+#    2. If no patch, mediate                                                   #
+#    3. Last resort whitelist here AFTER best effort testing/research to prove #
+#       it can't be utilised                                                   #
+#    4. If not possible to mediate or prove unusuable - TEMP whitelist with a  #
+#       link to the Bug created in backlog                                     #
+#    BONUS - if in doubt contact a security engineer!                          #
+################################################################################
+
+###### DEFCON 1
+
+###### CRITICAL
+# tar : false positive version >1.30 is installed and only affects a specific 1.15.1 version
+# e.g. "tar --version" -> tar (GNU tar) 1.30
+#CVE-2005-2541
+
+###### HIGH
+
+###### MEDIUM
+
+###### LOW
+# All low risk vulnerabilities are whitelisted by default. See Architectural
+# decision https://some.confluence.link.com
