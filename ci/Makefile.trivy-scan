@@ -1,0 +1,9 @@
+TRIVY_VERSION ?= 0.2.1
+
+.PHONY: scan
+scan: build
+	@echo "Scanning ..."
+	docker run --rm \
+		-v /tmp/trivy:/root/.cache/ \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		aquasec/trivy:${TRIVY_VERSION} ${IMAGE}

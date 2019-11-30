@@ -9,6 +9,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: true
       matrix:
         component: ['box-api-1', 'box-api-2', 'box-ui']
 
@@ -20,6 +21,7 @@ jobs:
   lint-terraform:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: true
       matrix:
         module: ['infrastructure', 'permissions', 'services']
     steps:
@@ -35,29 +37,41 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
   test:
     runs-on: ubuntu-latest
     needs: lint
     strategy:
+      fail-fast: true
       matrix:
         component: ['box-api-1', 'box-api-2', 'box-ui']
     steps:
-    - uses: actions/checkout@master
-    - name: Test the component
-      run: cd ${{ matrix.component }} && make test
+      - uses: actions/checkout@master
+      - name: Test the component
+        run: cd ${{ matrix.component }} && make test
+
+  scan:
+    name: docker security scan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        component: ['box-api-1', 'box-api-2', 'box-ui']
+    steps:
+      - uses: actions/checkout@master
+      - name: Scan the docker image
+        run: cd ${{ matrix.component }} && make scan
 
   publish:
     runs-on: ubuntu-latest
     needs: [test, scan]
     strategy:
+      fail-fast: true
       matrix:
         component: ['box-api-1', 'box-api-2', 'box-ui']
     steps:
     - uses: actions/checkout@master
     - name: publish the package
       run: cd ${{ matrix.component }} && make publish
-
 
   # slack:
   #   needs: test
