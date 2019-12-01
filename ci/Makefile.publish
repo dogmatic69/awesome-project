@@ -1,5 +1,0 @@
-.PHONY: publish
-publish: build
-	@echo "======================"
-	@echo "No Publish defined!   "
-	@echo "======================"

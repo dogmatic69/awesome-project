@@ -2,7 +2,8 @@ IMAGE = example-ci/api-1
 
 include ../ci/Makefile.build
 include ../ci/Makefile.trivy-scan
-include ../ci/Makefile.publish
+include ../ci/Makefile.publish-docker
+include ../ci/Makefile.publish-npm
 
 .PHONY: lint
 lint: build
