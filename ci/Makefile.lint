@@ -1,5 +1,6 @@
 .PHONY: lint
 lint: build
+	mkdir -p /tmp/output
 	@echo "======================"
 	@echo "Linter not configured!"
 	@echo "======================"

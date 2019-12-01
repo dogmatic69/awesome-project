@@ -7,4 +7,8 @@ include ../ci/Makefile.publish
 
 .PHONY: lint
 lint: build
-	docker run --rm ${IMAGE} -m flake8 ./
+	mkdir -p /tmp/output
+	touch /tmp/output/output.txt
+	docker run --rm \
+		-v /tmp/output/:/tmp/output/ \
+		${IMAGE} -m flake8 --output-file=/tmp/output/output.txt ./

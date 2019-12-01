@@ -10,15 +10,16 @@
     "eslint": "^6.7.1",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
-    "mocha": "^6.2.2"
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1"
   },
   "dependencies": {
     "express": "^4.17.1"
   },
   "scripts": {
     "start": "node index.js",
-    "lint": "eslint -c ./.eslint.json .",
+    "lint": "eslint -c ./.eslint.json -o /tmp/output/output.txt --no-color .",
     "build": "",
-    "test": "mocha /src/tests --exit"
+    "test": "nyc mocha /src/tests --exit > /tmp/output/output.txt"
   }
 }
