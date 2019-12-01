@@ -2,4 +2,4 @@
 
 ## Status
 
-![CI Pipeline](https://github.com/dogmatic69/awesome-project/workflows/Awesome+Project+CI/badge.svg)
+![CI Pipeline](https://github.com/dogmatic69/awesome-project/workflows/Awesome%20Project%20CI/badge.svg)
