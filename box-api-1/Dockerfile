@@ -4,7 +4,7 @@ WORKDIR /src
 
 COPY files/src/package*.json ./
 
-RUN yarn install
+asdfdsafds
 
 COPY files/ /
 
