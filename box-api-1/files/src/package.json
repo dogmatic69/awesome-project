@@ -1,9 +1,10 @@
 {
-  "name": "api-1",
+  "name": "@dogmatic69/api-1",
   "version": "1.0.0",
   "description": "Example api in NodeJS",
   "main": "index.js",
   "license": "MIT",
+  "repository": "git://github.com/dogmatic69/awesome-project.git",
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
