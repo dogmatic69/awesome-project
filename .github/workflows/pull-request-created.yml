@@ -81,6 +81,40 @@ jobs:
           name: "scan-${{ matrix.component }}"
           path: /tmp/scan/output
 
+  slack-pr-ready:
+    runs-on: ubuntu-latest
+    needs: [lint, test, scan]
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=id;]$(echo ${GITHUB_REF#refs/pull/} | sed 's/\/merge//')"
+        id: pr-id
+      - name: PR Ready
+        uses: 8398a7/action-slack@v2
+        with:
+          status: custom
+          payload: |
+            {
+              text: ":shipit-parrot: PR is ready for review!",
+              attachments: [{
+                "author_name": "@${{ github.actor }}",
+                fallback: 'fallback',
+                color: 'good',
+                title: 'CI Result',
+                text: 'Succeeded',
+                fields: [{
+                  title: 'PR Link',
+                  value: "https://github.com/${{ github.repository }}/pull/${{ steps.pr-id.outputs.id }}",
+                  short: false
+                }],
+                actions: [{
+                }]
+              }]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
   publish-docker:
     runs-on: ubuntu-latest
     needs: [test, scan]
@@ -109,19 +143,3 @@ jobs:
   #       echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> "${{ matrix.component }}/files/src/.npmrc"
   #       cp "${{ matrix.component }}/files/src/.npmrc" ~/.npmrc
   #       make -C ${{ matrix.component }} publish-npm NODE_PATH=./files/src/
-
-  # slack:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@master
-  #   - name: Slack Notification
-  #     uses: rtCamp/action-slack-notify@master
-  #     env:
-  #       SLACK_CHANNEL: carls-test-channel
-  #       SLACK_COLOR: '#3278BD'
-  #       SLACK_ICON: https://github.com/rtCamp.png?size=48
-  #       SLACK_MESSAGE: 'Post Content :rocket:'
-  #       SLACK_TITLE: PR ready for review
-  #       SLACK_USERNAME: PR Bot
-  #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
