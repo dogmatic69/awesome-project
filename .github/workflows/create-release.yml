@@ -1,0 +1,17 @@
+name: Release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        component: ['box-api-1', 'box-api-2', 'box-ui']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Publish release
+        run: cd ${{ matrix.component }} && make publish

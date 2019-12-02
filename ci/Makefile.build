@@ -1,4 +1,4 @@
 .PHONY: build
 build:
 	@echo "building..."
-	docker build -t ${IMAGE} .
+	docker build -t $(IMAGE) .
