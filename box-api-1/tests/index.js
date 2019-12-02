@@ -17,6 +17,7 @@ describe('Test Case', () => {
                     message: 'Hello, world!',
                     error: false,
                 }).to.deep.equal(res.body);
+                expect(1).to.equal(2);
                 done();
             });
     });
