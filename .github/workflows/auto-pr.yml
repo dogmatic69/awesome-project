@@ -1,0 +1,29 @@
+name: Create WIP PR
+
+on:
+  push:
+    branches:
+    - "feature/*"
+    - "bugfix/*"
+    - "release/*"
+
+jobs:
+  pull-request:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=id;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: pr-id
+    - name: pull-request
+      uses: repo-sync/pull-request@v2
+      with:
+        pr_title: "WIP: Merge ${{ steps.pr-id.outputs.id }} into master :see_no_evil:"
+        pr_body: |
+           An automated PR has been created due to your branch matching one of
+           pre-defined triggers.
+
+           Once you are ready, update the title of this PR and the body to clearly
+           describe what it is you are changing.
+        github_token: ${{ secrets.GITHUB_TOKEN }}
