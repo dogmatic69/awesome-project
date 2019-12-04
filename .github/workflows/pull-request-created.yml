@@ -24,6 +24,24 @@ jobs:
         with:
           name: "lint-${{ matrix.component }}"
           path: /tmp/output
+      - name: Extract output
+        if: failure()
+        shell: bash
+        run: |
+          content=$(cat /tmp/output/output.txt)
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "##[set-output name=content;]$content"
+        id: output
+      - uses: rytswd/respost@v0.1.0
+        if: failure()
+        with:
+          title: "Lint Failure ${{ matrix.component }}"
+          body: |
+            ```${{ steps.output.outputs.content }}```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   lint-terraform:
     runs-on: ubuntu-latest
@@ -61,6 +79,24 @@ jobs:
         with:
             name: "test-${{ matrix.component }}"
             path: /tmp/output
+      - name: Extract output
+        if: failure()
+        shell: bash
+        run: |
+          content=$(cat /tmp/output/output.txt)
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "##[set-output name=content;]$content"
+        id: output
+      - uses: rytswd/respost@v0.1.0
+        if: failure()
+        with:
+          title: "Test Failure ${{ matrix.component }}"
+          body: |
+            ```${{ steps.output.outputs.content }}```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   scan:
     name: docker security scan
@@ -80,6 +116,24 @@ jobs:
         with:
           name: "scan-${{ matrix.component }}"
           path: /tmp/scan/output
+      - name: Extract output
+        if: failure()
+        shell: bash
+        run: |
+          content=$(cat /tmp/scan/output/output.txt)
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "##[set-output name=content;]$content"
+        id: output
+      - uses: rytswd/respost@v0.1.0
+        if: failure()
+        with:
+          title: "Lint Failure ${{ matrix.component }}"
+          body: |
+            ```${{ steps.output.outputs.content }}```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   slack-pr-ready:
     runs-on: ubuntu-latest
