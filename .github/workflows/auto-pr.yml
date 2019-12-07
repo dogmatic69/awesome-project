@@ -17,9 +17,9 @@ jobs:
         run: echo "##[set-output name=id;]$(echo ${GITHUB_REF#refs/heads/})"
         id: pr-id
       - name: pull-request-action
-        uses: vsoch/pull-request-action@master
+        uses: dogmatic69/pull-request-action@use-alpine-linux
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.OWNER_TOKEN }}
           BRANCH_PREFIX: "feature/"
           PULL_REQUEST_BRANCH: "master"
           PULL_REQUEST_TITLE: "WIP: Merge feature ${{ steps.pr-id.outputs.id }} into master 🙈"
@@ -38,9 +38,9 @@ jobs:
         run: echo "##[set-output name=id;]$(echo ${GITHUB_REF#refs/heads/})"
         id: pr-id
       - name: pull-request-action
-        uses: vsoch/pull-request-action@master
+        uses: dogmatic69/pull-request-action@use-alpine-linux
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.OWNER_TOKEN }}
           BRANCH_PREFIX: "bugfix/"
           PULL_REQUEST_BRANCH: "master"
           PULL_REQUEST_TITLE: "Merge bugfix ${{ steps.pr-id.outputs.id }} into master 🙈"
