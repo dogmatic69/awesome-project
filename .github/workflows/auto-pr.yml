@@ -8,22 +8,44 @@ on:
     - "release/*"
 
 jobs:
-  pull-request:
+  auto-pull-request-feature:
+    name: Auto PR Feature
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Extract branch name
-      shell: bash
-      run: echo "##[set-output name=id;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: pr-id
-    - name: pull-request
-      uses: repo-sync/pull-request@v2
-      with:
-        pr_title: "WIP: Merge ${{ steps.pr-id.outputs.id }} into master :see_no_evil:"
-        pr_body: |
-           An automated PR has been created due to your branch matching one of
-           pre-defined triggers.
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=id;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: pr-id
+      - name: pull-request-action
+        uses: vsoch/pull-request-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_PREFIX: "feature/"
+          PULL_REQUEST_BRANCH: "master"
+          PULL_REQUEST_TITLE: "WIP: Merge feature ${{ steps.pr-id.outputs.id }} into master 🙈"
+          PULL_REQUEST_BODY: |
+            An automated feature PR has been created.
 
-           Once you are ready, update the title of this PR and the body to clearly
-           describe what it is you are changing.
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+            Once you are ready, update the title of this PR and the body to clearly
+            describe what it is you are changing.
+
+  auto-pull-request-bug:
+    name: Auto PR BugFix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=id;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: pr-id
+      - name: pull-request-action
+        uses: vsoch/pull-request-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH_PREFIX: "bugfix/"
+          PULL_REQUEST_BRANCH: "master"
+          PULL_REQUEST_TITLE: "Merge bugfix ${{ steps.pr-id.outputs.id }} into master 🙈"
+          PULL_REQUEST_BODY: |
+            An automated bugfix PR has been created.
+
+            Once you are ready, update the title of this PR and the body to clearly
+            describe what it is you are changing.
