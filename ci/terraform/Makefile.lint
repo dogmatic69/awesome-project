@@ -1,0 +1,19 @@
+.PHONY: terraform-fmt
+terraform-fmt:
+	docker run -i --rm --workdir /src \
+		-v $(TERRAFORM_MODULE_PATH):/src \
+		hashicorp/terraform:light fmt -check -diff \
+		> /tmp/output/terraform-fmt.diff
+	@EXIT_CODE=$$?
+	@cat /tmp/output/terraform-fmt.diff
+	@exit $$EXIT_CODE
+
+.PHONY: terraform-tflint
+terraform-tflint:
+	$(shell docker run -i --rm \
+		-v $(TERRAFORM_MODULE_PATH):/data \
+		wata727/tflint -f json \
+		> /tmp/output/terraform-tflint.json)
+	@EXIT_CODE=$$?
+	@cat /tmp/output/terraform-tflint.json
+	@exit $$EXIT_CODE

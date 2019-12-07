@@ -23,9 +23,9 @@ jobs:
           - box-api-1
           - box-api-2
           # - box-ui
-          # - terraform/infrastructure
-          # - terraform/permissions
-          # - terraform/services
+          - terraform/infrastructure
+          - terraform/permissions
+          - terraform/services
     steps:
       - uses: actions/checkout@master
       - name: Lint the code
@@ -124,26 +124,6 @@ jobs:
         DOCKER_TOKEN=${{ secrets.GITHUB_TOKEN }} \
         DOCKER_USER=${{ github.actor }} \
           make publish
-
-
-# # ===================================================
-#   lint-terraform:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         module: ['infrastructure', 'permissions', 'services']
-#     steps:
-#       - name: 'Checkout'
-#         uses: actions/checkout@master
-#       - name: Lint the code
-#         uses: hashicorp/terraform-github-actions@master
-#         with:
-#           tf_actions_version: 0.12.13
-#           tf_actions_subcommand: 'fmt'
-#           tf_actions_working_dir: './terraform/${{ matrix.module }}'
-#           tf_actions_comment: true
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 #   slack-pr-ready:
 #     runs-on: ubuntu-latest
