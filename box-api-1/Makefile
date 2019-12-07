@@ -4,6 +4,7 @@ include ../ci/Makefile.build
 include ../ci/Makefile.trivy-scan
 include ../ci/Makefile.publish-docker
 include ../ci/Makefile.publish-npm
+include ../ci/Makefile.audit-npm
 
 .PHONY: lint
 lint: build
