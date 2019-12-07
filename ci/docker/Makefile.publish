@@ -1,0 +1,15 @@
+DOCKER_HASH := $(shell git rev-parse --short=8 HEAD)
+DOCKER_REGISTRY ?= docker.pkg.github.com
+DOCKER_SERVICE ?= app
+DOCKER_TOKEN ?= invalid-token
+DOCKER_USER ?= invalid-user
+
+REPO = $(DOCKER_REGISTRY)/$(GITHUB_REPOSITORY)/$(DOCKER_SERVICE):$(DOCKER_HASH)
+
+.PHONY: docker-publish
+docker-publish: build
+	@echo "Logging in to registry..."
+	@echo $(DOCKER_TOKEN) | docker login -u $(DOCKER_USER) --password-stdin docker.pkg.github.com
+	@echo "Pushing to registry [${REPO}]"
+	docker tag $(DOCKER_IMAGE) $(REPO)
+	docker push $(REPO)

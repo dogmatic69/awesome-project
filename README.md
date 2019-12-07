@@ -10,3 +10,4 @@
 ## Required Secrets
 
 - SLACK_WEBHOOK: The web hook url that will be used to post slack notifications to
+- OWNER_TOKEN: A user token with repo scope. This allows for example to create a PR in an action and also have the actions for a new PR triggered. See [here](https://github.com/peter-evans/create-pull-request/issues/48)

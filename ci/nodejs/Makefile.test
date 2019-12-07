@@ -1,0 +1,18 @@
+.PHONY: nodejs-test
+nodejs-test: build
+	mkdir -p /tmp/output
+	docker run --rm \
+		-v /tmp/output:/output \
+		-v $(realpath ./tests):/src/tests \
+		${DOCKER_IMAGE} test > /tmp/output/nodejs-test.txt
+	@EXIT_CODE=$$?
+	@cat /tmp/output/nodejs-test.txt
+	@exit $$EXIT_CODE
+
+.PHONY: nodejs-coverage
+nodejs-coverage: build
+	mkdir -p /tmp/output
+	echo "coverage..." > /tmp/output/nodejs-coverage.json
+	@EXIT_CODE=$$?
+	@cat /tmp/output/nodejs-coverage.json
+	@exit $$EXIT_CODE

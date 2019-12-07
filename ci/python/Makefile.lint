@@ -1,0 +1,6 @@
+
+.PHONY: python-lint
+python-lint: build
+	docker run --rm \
+		-v /tmp/output/:/tmp/output/ \
+		${DOCKER_IMAGE} -m flake8 --output-file=/tmp/output/flake8.txt ./

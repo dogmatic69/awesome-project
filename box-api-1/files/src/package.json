@@ -19,8 +19,8 @@
   },
   "scripts": {
     "start": "node index.js",
-    "lint": "eslint -c ./.eslint.json -o /tmp/output/output.txt --no-color .",
+    "lint": "eslint -c ./.eslint.json -o /output/eslint.txt --no-color .",
     "build": "",
-    "test": "nyc mocha /src/tests --exit > /tmp/output/output.txt"
+    "test": "nyc mocha /src/tests --exit"
   }
 }

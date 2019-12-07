@@ -1,4 +1,4 @@
-IMAGE = example-ci/ui
+DOCKER_IMAGE = example-ci/ui
 
 include ../ci/Makefile.build
 include ../ci/Makefile.test

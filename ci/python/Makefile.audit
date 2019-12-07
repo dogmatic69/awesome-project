@@ -1,0 +1,27 @@
+SERVICE ?= $(notdir $(CURDIR))
+SRC_PATH ?= files/src/
+FULL_PATH = $(PWD)/$(SERVICE)/$(SRC_PATH)
+
+.PHONY: python-bandit
+python-bandit:
+	docker run --rm \
+		--user root \
+		-v $(FULL_PATH):/src \
+		-v /tmp/output:/report \
+		secfigo/bandit
+	@cat /tmp/output/banditResult.json
+	@$(A=$(jq .results < /tmp/output/banditResult.json | wc -l); exit $(($A - 1)))
+	@exit $$?
+
+.PHONY: python-xenon
+python-xenon:
+	mkdir -p /tmp/output
+	docker run --rm \
+		-v $(FULL_PATH):/src \
+		-v /tmp/output:/output \
+		--entrypoint sh \
+		python:alpine -c \
+		'pip install xenon && xenon -b A -m A -a A /src 2> /output/xenon.txt'
+	@EXIT_CODE=$$?
+	@cat /tmp/output/xenon.txt
+	@exit $$EXIT_CODE

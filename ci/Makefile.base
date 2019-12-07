@@ -1,0 +1,37 @@
+DOCKER_IMAGE = example/service
+
+include ../ci/makefile/Makefile.lint
+
+#####################################
+# Includes here
+#####################################
+# include ../ci/docker/Makefile.audit
+# include ../ci/docker/Makefile.lint
+
+.PHONY: all
+all: clean build audit lint test
+
+
+.PHONY: clean
+clean:
+	rm -rf /tmp/output/*
+
+.PHONY: build
+build:
+	make docker-build
+
+.PHONY: audit
+audit:
+	echo "code audit..."
+
+.PHONY: lint
+lint:
+	echo "code lint..."
+
+.PHONY: test
+test:
+	echo "code tests..."
+
+.PHONY: publish
+publish: build
+	echo "code publish..."
