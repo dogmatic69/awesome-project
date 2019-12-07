@@ -1,0 +1,23 @@
+SERVICE ?= $(notdir $(CURDIR))
+SRC_PATH ?= files/src/
+
+FULL_PATH = ${PWD}/$(SERVICE)/$(SRC_PATH)
+
+.PHONY: audit-npm
+audit-npm:
+	mkdir -p /tmp/output
+	docker run --rm -v ${FULL_PATH}:/usr/app/ mtheoryx/npm-audit:1.0.0 \
+		> /tmp/output/npm-audit.txt
+
+.PHONY: audit-retirejs
+audit-retirejs:
+	mkdir -p /tmp/output
+	$(cd ${FULL_PATH} && npm install)
+	docker run --rm -v ${FULL_PATH}:/app gruebel/retirejs:latest \
+		> /tmp/output/retirejs.txt
+
+.PHONY: audit-yarn
+audit-yarn: build
+	mkdir -p /tmp/output
+	docker run --rm --entrypoint yarn ${IMAGE} audit --json --no-progress --non-interactive \
+		> /tmp/output/yarn-audit.json
