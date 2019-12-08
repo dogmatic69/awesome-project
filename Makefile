@@ -1,7 +1,12 @@
 GITHUB_WORKSPACE ?= ./
 
+include ./ci/git/Makefile.audit
 include ./ci/git/Makefile.lint
 include ./ci/file/Makefile.lint
+
+.PHONY: audit
+audit:
+	make git-gitleaks
 
 .PHONY: lint
 lint:

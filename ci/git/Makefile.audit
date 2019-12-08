@@ -1,0 +1,10 @@
+.PHONY: git-gitleaks
+git-gitleaks:
+	@mkdir -p /tmp/output
+	@touch /tmp/output/gitleaks.json
+	docker run --rm --name=gitleaks \
+		-v $(realpath ${GITHUB_WORKSPACE}):/code \
+		-v /tmp/output:/output \
+		zricethezav/gitleaks -v --redact \
+		--repo-path=/code \
+		--report=/output/gitleaks.json
