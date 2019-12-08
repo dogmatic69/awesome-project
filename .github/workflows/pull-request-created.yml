@@ -22,7 +22,7 @@ jobs:
         component:
           - box-api-1
           - box-api-2
-          # - box-ui
+          - box-ui
           - terraform/infrastructure
           - terraform/permissions
           - terraform/services
@@ -53,10 +53,7 @@ jobs:
         component:
           - box-api-1
           - box-api-2
-          # - box-ui
-          # - terraform/infrastructure
-          # - terraform/permissions
-          # - terraform/services
+          - box-ui
     steps:
       - uses: actions/checkout@master
       - name: Test the component
@@ -83,10 +80,7 @@ jobs:
         component:
           - box-api-1
           - box-api-2
-          # - box-ui
-          # - terraform/infrastructure
-          # - terraform/permissions
-          # - terraform/services
+          - box-ui
     steps:
       - uses: actions/checkout@master
       - name: Scan the docker image
@@ -114,7 +108,7 @@ jobs:
         component:
           - box-api-1
           - box-api-2
-          # - box-ui
+          - box-ui
     steps:
     - uses: actions/checkout@master
     - name: publish the package
