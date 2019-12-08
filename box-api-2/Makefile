@@ -9,7 +9,7 @@ include ../ci/python/Makefile.audit
 include ../ci/python/Makefile.lint
 include ../ci/python/Makefile.test
 
-include ../ci/makefile/Makefile.lint
+include ../ci/make/Makefile.lint
 
 .PHONY: all
 all: clean init build audit lint test

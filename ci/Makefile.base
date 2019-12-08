@@ -1,6 +1,6 @@
 DOCKER_IMAGE = example/service
 
-include ../ci/makefile/Makefile.lint
+include ../ci/make/Makefile.lint
 
 #####################################
 # Includes here

@@ -9,7 +9,7 @@ include ../ci/nodejs/Makefile.audit
 include ../ci/nodejs/Makefile.lint
 include ../ci/nodejs/Makefile.test
 
-include ../ci/makefile/Makefile.lint
+include ../ci/make/Makefile.lint
 
 .PHONY: all
 all: clean init build audit lint test
