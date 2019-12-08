@@ -21,8 +21,11 @@ jobs:
       matrix:
         action:
           - lint
+          - audit
     steps:
       - uses: actions/checkout@master
+        with:
+          fetch-depth: 100
       - name: 'Run the action: ${{ matrix.action }}'
         run: make ${{ matrix.action }}
       - uses: actions/upload-artifact@v1
