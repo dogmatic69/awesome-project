@@ -1,0 +1,5 @@
+NODE_PATH ?= ./
+
+.PHONY: nodejs-publish
+nodejs-publish: build
+	yarn publish $(NODE_PATH)

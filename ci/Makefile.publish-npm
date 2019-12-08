@@ -1,5 +1,0 @@
-NODE_PATH ?= ./
-
-.PHONY: publish-npm
-publish-npm: build
-	yarn publish $(NODE_PATH)

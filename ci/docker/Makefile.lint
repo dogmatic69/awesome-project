@@ -1,0 +1,9 @@
+DOCKERFILE_PATH = $(realpath ./Dockerfile)
+
+.PHONY: docker-lint
+docker-lint:
+	docker run --rm -i hadolint/hadolint < $(DOCKERFILE_PATH) \
+		> /tmp/output/docker-lint.txt
+	@EXIT_CODE=$$?
+	@cat /tmp/output/docker-lint.txt
+	@exit $$EXIT_CODE

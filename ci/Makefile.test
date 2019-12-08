@@ -1,6 +1,0 @@
-.PHONY: test
-test: build
-	mkdir -p /tmp/output
-	@echo "======================"
-	@echo "No tests configured!  "
-	@echo "======================"

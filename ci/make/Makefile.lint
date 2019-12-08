@@ -1,0 +1,12 @@
+MAKEFILE_PATH = ./
+MAKEFILE_NAME = Makefile
+
+.PHONY: makefile-lint
+makefile-lint:
+	@mkdir -p /tmp/output
+	docker run --rm \
+		-v $(realpath $(MAKEFILE_PATH)):/data cytopia/checkmake $(MAKEFILE_NAME) \
+		> /tmp/output/checkmake.txt
+	@EXIT_CODE=$$?
+	@cat /tmp/output/checkmake.txt
+	@exit $$EXIT_CODE

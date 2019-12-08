@@ -1,0 +1,5 @@
+
+.PHONY: python-publish
+python-publish: build
+	echo "python publish"
+	exit 1

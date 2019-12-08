@@ -1,0 +1,7 @@
+.PHONY: nodejs-lint
+nodejs-lint: build
+	mkdir -p /tmp/output
+	touch /tmp/output/lint.txt
+	docker run --rm \
+		-v /tmp/output:/output \
+		${DOCKER_IMAGE} lint

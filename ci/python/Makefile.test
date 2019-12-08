@@ -1,0 +1,4 @@
+.PHONY: test
+test: build
+	mkdir -p /tmp/output
+	docker run --rm ${DOCKER_IMAGE} py.test
