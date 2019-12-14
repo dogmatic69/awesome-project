@@ -1,15 +1,15 @@
 services:
-  api-1:
-    build: ./api-1
+  node-api:
+    build: ./node-api
     ports:
       - 3001:3000
 
-  api-2:
-    build: ./api-2
+  python-api:
+    build: ./python-api
     ports:
       - 3002:5000
 
   ui:
-    build: ./api-2
+    build: ./python-api
     ports:
       - 5000:3000

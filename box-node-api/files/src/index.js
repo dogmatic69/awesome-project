@@ -6,7 +6,7 @@ const HOST = '0.0.0.0';
 const app = express();
 app.get('/', (req, res) => {
   res.send({
-    server: 'api-1',
+    server: 'node-api',
     message: 'Hello, world!',
     error: false,
   });

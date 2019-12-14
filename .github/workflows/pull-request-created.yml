@@ -111,8 +111,8 @@ jobs:
     strategy:
       matrix:
         image:
-          - box-api-1
-          - box-api-2
+          - box-node-api
+          - box-python-api
           - box-ui
     steps:
       - uses: actions/checkout@master
@@ -155,8 +155,8 @@ jobs:
     strategy:
       matrix:
         component:
-          - box-api-1
-          - box-api-2
+          - box-node-api
+          - box-python-api
           - box-ui
     steps:
     - uses: actions/checkout@master
@@ -184,8 +184,8 @@ jobs:
     strategy:
       matrix:
         image:
-          - box-api-1
-          - box-api-2
+          - box-node-api
+          - box-python-api
           - box-ui
     steps:
       - uses: actions/checkout@master
@@ -235,7 +235,7 @@ jobs:
 #   #   # needs: [test, scan]
 #   #   strategy:
 #   #     matrix:
-#   #       component: ['box-api-1']
+#   #       component: ['box-node-api']
 #   #   steps:
 #   #   - uses: actions/checkout@master
 #   #   - name: publish the package

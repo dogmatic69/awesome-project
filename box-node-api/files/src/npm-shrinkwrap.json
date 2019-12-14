@@ -1,5 +1,5 @@
 {
-  "name": "@dogmatic69/api-1",
+  "name": "@dogmatic69/node-api",
   "version": "1.0.0",
   "dependencies": {
     "@babel/code-frame": {
