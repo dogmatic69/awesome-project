@@ -1,11 +1,7 @@
 DOCKER_IMAGE = example-ci/ui
 
-include ../ci/docker/Makefile.audit
 include ../ci/docker/Makefile.build
-include ../ci/docker/Makefile.lint
 include ../ci/docker/Makefile.publish
-
-include ../ci/make/Makefile.lint
 
 .PHONY: all
 all: clean init build audit lint test
@@ -25,12 +21,11 @@ build: init
 
 .PHONY: audit
 audit: init
-	make docker-audit-trivy
+	echo "audit"
 
 .PHONY: lint
 lint: init
-	make docker-lint && \
-	make makefile-lint
+	echo "lint"
 
 .PHONY: test
 test: init

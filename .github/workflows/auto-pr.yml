@@ -22,7 +22,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.OWNER_TOKEN }}
           BRANCH_PREFIX: "feature/"
           PULL_REQUEST_BRANCH: "master"
-          PULL_REQUEST_TITLE: "WIP: Merge feature ${{ steps.pr-id.outputs.id }} into master 🙈"
+          PULL_REQUEST_TITLE: "WIP: Merge ${{ steps.pr-id.outputs.id }} into master 🙈"
           PULL_REQUEST_BODY: |
             An automated feature PR has been created.
 
@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.OWNER_TOKEN }}
           BRANCH_PREFIX: "bugfix/"
           PULL_REQUEST_BRANCH: "master"
-          PULL_REQUEST_TITLE: "Merge bugfix ${{ steps.pr-id.outputs.id }} into master 🙈"
+          PULL_REQUEST_TITLE: "Merge ${{ steps.pr-id.outputs.id }} into master 🙈"
           PULL_REQUEST_BODY: |
             An automated bugfix PR has been created.
 
