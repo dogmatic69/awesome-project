@@ -1,4 +1,4 @@
-DOCKER_IMAGE = example-ci/api-1
+DOCKER_IMAGE = example-ci/node-api
 
 include ../ci/docker/Makefile.build
 include ../ci/docker/Makefile.publish

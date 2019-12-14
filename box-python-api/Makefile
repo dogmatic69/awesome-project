@@ -1,4 +1,4 @@
-DOCKER_IMAGE = example-ci/api-2
+DOCKER_IMAGE = example-ci/python-api
 
 include ../ci/docker/Makefile.build
 include ../ci/docker/Makefile.publish

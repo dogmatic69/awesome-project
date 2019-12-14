@@ -8,7 +8,7 @@ api = Api(app)
 class HelloWorld(Resource):
     def get(self):
         return {
-            'server': 'api-1',
+            'server': 'python-api',
             'message': 'Hello, world!',
             'error': False,
         }

@@ -13,7 +13,7 @@ describe('Test Case', () => {
             .end((err, res) => {
                 res.should.have.status(200);
                 expect({
-                    server: 'api-1',
+                    server: 'node-api',
                     message: 'Hello, world!',
                     error: false,
                 }).to.deep.equal(res.body);
