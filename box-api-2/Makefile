@@ -1,15 +1,11 @@
 DOCKER_IMAGE = example-ci/api-2
 
-include ../ci/docker/Makefile.audit
 include ../ci/docker/Makefile.build
-include ../ci/docker/Makefile.lint
 include ../ci/docker/Makefile.publish
 
 include ../ci/python/Makefile.audit
 include ../ci/python/Makefile.lint
 include ../ci/python/Makefile.test
-
-include ../ci/make/Makefile.lint
 
 .PHONY: all
 all: clean init build audit lint test
@@ -29,15 +25,12 @@ build: init
 .PHONY: audit
 audit: init
 	echo "audit ..."
-	make docker-audit-trivy && \
 	make python-bandit && \
 	make python-xenon
 
 .PHONY: lint
 lint: init
-	make docker-lint && \
-	make python-lint && \
-	make makefile-lint
+	make python-lint
 
 .PHONY: test
 test: init
