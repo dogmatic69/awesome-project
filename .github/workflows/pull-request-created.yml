@@ -137,6 +137,37 @@ jobs:
     steps:
       - run: true
 
+  #############################################################################
+  #
+  # ██████╗ ██████╗  ██████╗      ██╗███████╗ ██████╗████████╗
+  # ██╔══██╗██╔══██╗██╔═══██╗     ██║██╔════╝██╔════╝╚══██╔══╝
+  # ██████╔╝██████╔╝██║   ██║     ██║█████╗  ██║        ██║
+  # ██╔═══╝ ██╔══██╗██║   ██║██   ██║██╔══╝  ██║        ██║
+  # ██║     ██║  ██║╚██████╔╝╚█████╔╝███████╗╚██████╗   ██║
+  # ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝
+  #
+  #############################################################################
+  node-api-checks:
+    name: Node API Checks
+    runs-on: ubuntu-latest
+    needs: [file-done, git-done, docker-done]
+    steps:
+      - uses: actions/checkout@master
+      - uses: dogmatic69/actions/docker/service@master
+        with:
+          service: box-node-api
+          targets: lint audit test
+
+  python-api-checks:
+    name: Python API Checks
+    runs-on: ubuntu-latest
+    needs: [file-done, git-done, docker-done]
+    steps:
+    - uses: actions/checkout@master
+    - uses: dogmatic69/actions/docker/service@master
+      with:
+        service: box-python-api
+        targets: lint audit test
 
   #############################################################################
   #
@@ -151,7 +182,7 @@ jobs:
   publish:
     name: Code Publish
     runs-on: ubuntu-latest
-    needs: [file-done, git-done, docker-done]
+    needs: [node-api-checks, python-api-checks]
     strategy:
       matrix:
         component:
@@ -167,34 +198,6 @@ jobs:
         DOCKER_TOKEN=${{ secrets.GITHUB_TOKEN }} \
         DOCKER_USER=${{ github.actor }} \
           make publish
-
-  #############################################################################
-  #
-  # ██████╗ ██████╗  ██████╗      ██╗███████╗ ██████╗████████╗
-  # ██╔══██╗██╔══██╗██╔═══██╗     ██║██╔════╝██╔════╝╚══██╔══╝
-  # ██████╔╝██████╔╝██║   ██║     ██║█████╗  ██║        ██║
-  # ██╔═══╝ ██╔══██╗██║   ██║██   ██║██╔══╝  ██║        ██║
-  # ██║     ██║  ██║╚██████╔╝╚█████╔╝███████╗╚██████╗   ██║
-  # ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝
-  #
-  #############################################################################
-  project-checks:
-    name: Project Specific Checks
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image:
-          - box-node-api
-          - box-python-api
-          - box-ui
-    steps:
-      - uses: actions/checkout@master
-      - name: Lint
-        run: make -C ${{ matrix.image }} lint
-      - name: Test
-        run: make -C ${{ matrix.image }} test
-      - name: Audit
-        run: make -C ${{ matrix.image }} audit
 
 #   slack-pr-ready:
 #     runs-on: ubuntu-latest
@@ -229,18 +232,3 @@ jobs:
 #         env:
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-
-#   # publish-npm:
-#   #   runs-on: ubuntu-latest
-#   #   # needs: [test, scan]
-#   #   strategy:
-#   #     matrix:
-#   #       component: ['box-node-api']
-#   #   steps:
-#   #   - uses: actions/checkout@master
-#   #   - name: publish the package
-#   #     run: |
-#   #       yarn config set _authToken ${{ secrets.GITHUB_TOKEN }}
-#   #       echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> "${{ matrix.component }}/files/src/.npmrc"
-#   #       cp "${{ matrix.component }}/files/src/.npmrc" ~/.npmrc
-#   #       make -C ${{ matrix.component }} publish-npm NODE_PATH=./files/src/

@@ -1,4 +1,6 @@
+AAA := $(shell echo "get git hash")
 DOCKER_HASH := $(shell git rev-parse --short=8 HEAD)
+BBB := $(shell echo "done")
 DOCKER_REGISTRY ?= docker.pkg.github.com
 DOCKER_SERVICE ?= app
 DOCKER_TOKEN ?= invalid-token
