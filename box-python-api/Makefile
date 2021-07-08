@@ -35,8 +35,7 @@ lint: init
 .PHONY: test
 test: init
 	echo "test ..."
-	# make nodejs-test && \
-	# make nodejs-coverage
+	make test-python
 
 .PHONY: publish
 publish: build
